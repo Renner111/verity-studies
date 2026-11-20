@@ -8,8 +8,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=6">
-  <style>[hidden]{display:none!important}.small-note{color:#77798c;font-size:13px;margin-top:18px}.error-note{color:#9b3443}</style>
+  <link rel="stylesheet" href="styles.css?v=7">
+  <style>
+    [hidden]{display:none!important}
+    .small-note{color:#77798c;font-size:13px;margin-top:18px}
+    .topic-images{padding:24px 34px 30px;border-top:1px solid rgba(35,37,74,.11)}
+    .topic-images h3{margin:0 0 8px;font-family:Manrope,sans-serif;font-size:22px}
+    .image-status{margin:0 0 16px;color:#77798c;font-size:13px}
+    .image-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+    .image-card{display:block;overflow:hidden;border-radius:14px;background:#eaf0f5;aspect-ratio:4/3}
+    .image-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}
+    .image-card:hover img{transform:scale(1.04)}
+    .image-empty{color:#77798c;font-size:14px}
+    @media(max-width:540px){.topic-images{padding:22px 20px}.image-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  </style>
 </head>
 <body>
   <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -35,37 +47,71 @@
     </section>
     <section class="study" id="study" hidden>
       <div class="study-header"><div><p class="topic-kicker">YOUR STUDY TOPIC</p><h2 id="topicTitle"></h2></div><button class="share-button" id="newTopic" type="button">New topic</button></div>
-      <div class="summary-grid"><div class="main-summary"><p class="status-line"><span class="status-dot"></span><span id="statusText">Searching…</span></p><div id="summaryText" class="summary-text">Loading your overview…</div><div class="key-facts" id="keyFacts"></div></div><div id="featuredImage" class="featured-image"><div class="image-placeholder">Topic image</div></div></div>
-      <section class="chat" aria-label="Explore deeper"><div class="messages" id="messages"></div><form class="chat-input" id="chatForm"><input id="chatInput" autocomplete="off" placeholder="Ask a follow-up to explore deeper…" aria-label="Follow-up question"><button type="submit" aria-label="Send question">→</button></form></section>
+      <div class="summary-grid">
+        <div class="main-summary">
+          <p class="status-line"><span class="status-dot"></span><span id="statusText">Searching…</span></p>
+          <div id="summaryText" class="summary-text">Loading your overview…</div>
+          <div class="key-facts" id="keyFacts"></div>
+        </div>
+        <div id="featuredImage" class="featured-image"><div class="image-placeholder">Topic image</div></div>
+      </div>
+      <section class="topic-images" id="imageSection" aria-label="Images about this topic">
+        <h3>Explore with images</h3>
+        <p class="image-status" id="imageStatus">Searching Wikimedia Commons…</p>
+        <div class="image-grid" id="imageGrid"></div>
+      </section>
+      <section class="chat" aria-label="Explore deeper">
+        <div class="messages" id="messages"></div>
+        <form class="chat-input" id="chatForm">
+          <input id="chatInput" autocomplete="off" placeholder="Ask a follow-up to explore deeper…" aria-label="Follow-up question">
+          <button type="submit" aria-label="Send question">→</button>
+        </form>
+      </section>
       <p class="small-note">Overview source: <a id="sourceLink" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
     </section>
   </main>
   <script>
   (function(){
     var $=function(s){return document.querySelector(s)};
-    var welcome=$("#welcome"), study=$("#study"), currentText="", topic="";
+    var welcome=$("#welcome"),study=$("#study"),currentText="",topic="";
+    function searchImages(query){
+      $("#imageStatus").textContent="Searching Wikimedia Commons for images…";
+      $("#imageGrid").replaceChildren();
+      var url="https://commons.wikimedia.org/w/api.php?"+new URLSearchParams({action:"query",generator:"search",gsrsearch:query,gsrnamespace:"6",gsrlimit:"12",prop:"imageinfo",iiprop:"url",iiurlwidth:"700",format:"json",origin:"*"});
+      fetch(url).then(function(response){if(!response.ok)throw Error("Image request failed");return response.json();}).then(function(data){
+        var pages=data.query&&data.query.pages?Object.values(data.query.pages):[];
+        var images=pages.map(function(page){var info=page.imageinfo&&page.imageinfo[0];return info?{title:(page.title||query).replace(/^File:/,""),url:info.thumburl||info.url,full:info.url}:null;}).filter(function(image){return image&&image.url;});
+        var grid=$("#imageGrid");grid.replaceChildren();
+        if(!images.length){$("#imageStatus").textContent="No images were found for this topic.";return;}
+        $("#imageStatus").textContent=images.length+" images from Wikimedia Commons. Select an image to open its source.";
+        images.forEach(function(item,index){var link=document.createElement("a");link.className="image-card";link.href=item.full||item.url;link.target="_blank";link.rel="noopener noreferrer";link.setAttribute("aria-label","Open image source: "+item.title);var img=document.createElement("img");img.src=item.url;img.alt=item.title;img.loading=index<4?"eager":"lazy";link.appendChild(img);grid.appendChild(link);if(index===0){var featured=$("#featuredImage");featured.replaceChildren();var featureLink=document.createElement("a");featureLink.href=item.full||item.url;featureLink.target="_blank";featureLink.rel="noopener noreferrer";var featureImg=document.createElement("img");featureImg.src=item.url;featureImg.alt=item.title;featureLink.appendChild(featureImg);featured.appendChild(featureLink);}});
+      }).catch(function(){$("#imageStatus").textContent="Images could not be loaded right now. Your text overview is still available.";});
+    }
     function search(value){
-      topic=String(value||"").trim(); if(!topic){$("#searchInput").focus();return;}
-      welcome.hidden=true; study.hidden=false; $("#topicTitle").textContent=topic;
+      topic=String(value||"").trim();if(!topic){$("#searchInput").focus();return;}
+      welcome.hidden=true;study.hidden=false;$("#topicTitle").textContent=topic;
       $("#statusText").textContent="Searching for "+topic+"…";
       $("#summaryText").textContent="Loading a sourced overview here on this page…";
+      $("#keyFacts").textContent="";$("#messages").replaceChildren();
       history.replaceState(null,"","?topic="+encodeURIComponent(topic));
+      searchImages(topic);
       var url="https://en.wikipedia.org/w/api.php?"+new URLSearchParams({action:"query",generator:"search",gsrsearch:topic,gsrlimit:"1",prop:"extracts|info",exintro:"1",explaintext:"1",inprop:"url",format:"json",origin:"*"});
-      fetch(url).then(function(r){if(!r.ok)throw Error("Network request failed");return r.json();}).then(function(data){
-        var pages=data.query&&data.query.pages; if(!pages)throw Error("No article found");
-        var page=Object.values(pages)[0]; currentText=page.extract||"No overview text was returned.";
-        $("#topicTitle").textContent=page.title||topic; $("#statusText").textContent="Sourced overview ready";
+      fetch(url).then(function(response){if(!response.ok)throw Error("Network request failed");return response.json();}).then(function(data){
+        var pages=data.query&&data.query.pages;if(!pages)throw Error("No article found");
+        var page=Object.values(pages)[0];currentText=page.extract||"No overview text was returned.";
+        $("#topicTitle").textContent=page.title||topic;$("#statusText").textContent="Sourced overview ready";
         var box=$("#summaryText");box.replaceChildren();
         var parts=currentText.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[currentText];
         parts.slice(0,8).forEach(function(sentence){var p=document.createElement("p");p.textContent=sentence.trim();box.appendChild(p);});
         $("#sourceLink").href=page.fullurl||"https://en.wikipedia.org/wiki/Special:Search?search="+encodeURIComponent(topic);
         $("#keyFacts").textContent="Topic: "+(page.title||topic)+" · Source: Wikipedia";
-      }).catch(function(){ $("#statusText").textContent="Could not load the overview"; $("#summaryText").textContent="The search ran, but Wikipedia did not return an overview. Please check the connection and try again."; });
+      }).catch(function(){$("#statusText").textContent="Could not load the overview";$("#summaryText").textContent="The search ran, but Wikipedia did not return an overview. Please check the connection and try again.";});
     }
-    $("#searchForm").addEventListener("submit",function(e){e.preventDefault();search($("#searchInput").value);});
+    $("#searchForm").addEventListener("submit",function(event){event.preventDefault();search($("#searchInput").value);});
+    $("#searchInput").addEventListener("keydown",function(event){if(event.key==="Enter"){event.preventDefault();search(event.currentTarget.value);}});
     document.querySelectorAll("[data-topic]").forEach(function(button){button.addEventListener("click",function(){search(button.getAttribute("data-topic"));});});
     $("#newTopic").addEventListener("click",function(){history.replaceState(null,"",location.pathname);study.hidden=true;welcome.hidden=false;$("#searchInput").value="";$("#searchInput").focus();});
-    $("#chatForm").addEventListener("submit",function(e){e.preventDefault();var input=$("#chatInput"),q=input.value.trim();if(!q)return;var row=document.createElement("div");row.className="message";var bubble=document.createElement("div");bubble.className="message-bubble";bubble.textContent=currentText?currentText.slice(0,800):"Search for a topic first to load its overview.";row.textContent="You asked: "+q+" ";row.appendChild(bubble);$("#messages").appendChild(row);input.value="";});
+    $("#chatForm").addEventListener("submit",function(event){event.preventDefault();var input=$("#chatInput"),question=input.value.trim();if(!question)return;var row=document.createElement("div");row.className="message";var bubble=document.createElement("div");bubble.className="message-bubble";bubble.textContent="You asked: "+question+"\n\n"+(currentText?currentText.slice(0,800):"Search for a topic first to load its overview.");row.appendChild(bubble);$("#messages").appendChild(row);input.value="";});
     var initial=new URLSearchParams(location.search).get("topic");if(initial)search(initial);
   })();
   </script>
