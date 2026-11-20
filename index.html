@@ -1,233 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#e8edff" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e8edff">
   <title>Verity Studies</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=6">
+  <style>[hidden]{display:none!important}.small-note{color:#77798c;font-size:13px;margin-top:18px}.error-note{color:#9b3443}</style>
 </head>
 <body>
   <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
   <main class="app-shell">
     <header class="topbar">
       <a class="brand" href="./" aria-label="Verity Studies home"><span class="brand-mark">✓</span><span>Verity Studies</span></a>
-      <nav class="mode-switch" aria-label="Search mode">
-        <button class="mode-button active" data-mode="text" type="button">Learn</button>
-        <button class="mode-button" data-mode="images" type="button">Images</button>
-      </nav>
-      <button class="icon-button" id="newChat" type="button" aria-label="Start new topic">＋</button>
+      <nav class="mode-switch" aria-label="Search mode"><button class="mode-button active" type="button">Learn</button></nav>
     </header>
-
     <section class="welcome" id="welcome">
       <p class="eyebrow">EXPLORE WITH CLARITY</p>
-      <h1>What do you want to<br />understand?</h1>
-      <form class="search-box" id="searchForm" action="./" method="get">
-        <input id="searchInput" name="topic" autocomplete="off" placeholder="Ask about any topic..." aria-label="Topic to learn about" />
+      <h1>What do you want to<br>understand?</h1>
+      <form class="search-box" id="searchForm">
+        <input id="searchInput" autocomplete="off" placeholder="Ask about any topic..." aria-label="Topic to learn about">
         <button type="submit" aria-label="Search">→</button>
       </form>
       <div class="suggestions">
-        <a role="button" data-topic="Black holes" href="?topic=Black%20holes">Black holes</a>
-        <a role="button" data-topic="Ancient Rome" href="?topic=Ancient%20Rome">Ancient Rome</a>
-        <a role="button" data-topic="Photosynthesis" href="?topic=Photosynthesis">Photosynthesis</a>
-        <a role="button" data-topic="The Renaissance" href="?topic=The%20Renaissance">The Renaissance</a>
+        <button type="button" data-topic="Black holes">Black holes</button>
+        <button type="button" data-topic="Ancient Rome">Ancient Rome</button>
+        <button type="button" data-topic="Photosynthesis">Photosynthesis</button>
+        <button type="button" data-topic="The Renaissance">The Renaissance</button>
       </div>
-      <p class="small-note">Searches and overviews stay on this page.</p>
+      <p class="small-note">Your overview will appear here, without leaving this page.</p>
     </section>
-
     <section class="study" id="study" hidden>
-      <div class="study-header">
-        <div><p class="topic-kicker">YOUR STUDY TOPIC</p><h2 id="topicTitle">Topic</h2></div>
-        <button class="share-button" id="shareButton" type="button">Share</button>
-      </div>
-      <nav class="tabs" aria-label="Topic sections">
-        <button class="tab active" data-tab="overview" type="button">Overview</button>
-        <button class="tab" data-tab="details" type="button">Deep dive</button>
-        <button class="tab" data-tab="gallery" type="button">Images <span id="imageCount">0</span></button>
-        <button class="tab" data-tab="sources" type="button">Sources</button>
-      </nav>
-      <div class="tab-panels">
-        <article class="panel active" id="overviewPanel">
-          <div class="summary-grid">
-            <div class="main-summary">
-              <p class="status-line"><span class="status-dot"></span><span id="statusText">Search for a topic to begin</span></p>
-              <div id="summaryText" class="summary-text">Your sourced overview will appear here.</div>
-              <div class="key-facts" id="keyFacts"></div>
-            </div>
-            <div class="featured-image" id="featuredImage"><div class="image-placeholder">Matching topic image</div></div>
-          </div>
-        </article>
-        <article class="panel" id="detailsPanel">
-          <div class="details-layout">
-            <div><p class="section-label">EXPLORE FURTHER</p><h3 id="deepDiveTitle">About this topic</h3><div id="deepDiveText" class="article-copy"></div></div>
-            <aside class="questions" id="quickQuestions"><p class="section-label">QUESTIONS TO EXPLORE</p></aside>
-          </div>
-        </article>
-        <article class="panel" id="galleryPanel"><div class="gallery-grid" id="galleryGrid"></div></article>
-        <article class="panel" id="sourcesPanel"><div class="sources-list" id="sourcesList"></div></article>
-      </div>
-      <section class="chat" aria-label="Conversation">
-        <div class="messages" id="messages"></div>
-        <form class="chat-input" id="chatForm">
-          <input id="chatInput" autocomplete="off" placeholder="Ask a follow-up to explore deeper…" aria-label="Follow-up question" />
-          <button type="submit" aria-label="Send follow-up">→</button>
-        </form>
-      </section>
+      <div class="study-header"><div><p class="topic-kicker">YOUR STUDY TOPIC</p><h2 id="topicTitle"></h2></div><button class="share-button" id="newTopic" type="button">New topic</button></div>
+      <div class="summary-grid"><div class="main-summary"><p class="status-line"><span class="status-dot"></span><span id="statusText">Searching…</span></p><div id="summaryText" class="summary-text">Loading your overview…</div><div class="key-facts" id="keyFacts"></div></div><div id="featuredImage" class="featured-image"><div class="image-placeholder">Topic image</div></div></div>
+      <section class="chat" aria-label="Explore deeper"><div class="messages" id="messages"></div><form class="chat-input" id="chatForm"><input id="chatInput" autocomplete="off" placeholder="Ask a follow-up to explore deeper…" aria-label="Follow-up question"><button type="submit" aria-label="Send question">→</button></form></section>
+      <p class="small-note">Overview source: <a id="sourceLink" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
     </section>
   </main>
-  <div class="toast" id="toast" role="status">Link copied</div>
-
   <script>
-  (() => {
-    const $ = (selector) => document.querySelector(selector);
-    const state = { topic: "", mode: "text", page: null, images: [] };
-    const welcome = $("#welcome");
-    const study = $("#study");
-
-    function setTab(name) {
-      document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === name));
-      document.querySelectorAll(".panel").forEach((panel) => panel.classList.toggle("active", panel.id === name + "Panel"));
+  (function(){
+    var $=function(s){return document.querySelector(s)};
+    var welcome=$("#welcome"), study=$("#study"), currentText="", topic="";
+    function search(value){
+      topic=String(value||"").trim(); if(!topic){$("#searchInput").focus();return;}
+      welcome.hidden=true; study.hidden=false; $("#topicTitle").textContent=topic;
+      $("#statusText").textContent="Searching for "+topic+"…";
+      $("#summaryText").textContent="Loading a sourced overview here on this page…";
+      history.replaceState(null,"","?topic="+encodeURIComponent(topic));
+      var url="https://en.wikipedia.org/w/api.php?"+new URLSearchParams({action:"query",generator:"search",gsrsearch:topic,gsrlimit:"1",prop:"extracts|info",exintro:"1",explaintext:"1",inprop:"url",format:"json",origin:"*"});
+      fetch(url).then(function(r){if(!r.ok)throw Error("Network request failed");return r.json();}).then(function(data){
+        var pages=data.query&&data.query.pages; if(!pages)throw Error("No article found");
+        var page=Object.values(pages)[0]; currentText=page.extract||"No overview text was returned.";
+        $("#topicTitle").textContent=page.title||topic; $("#statusText").textContent="Sourced overview ready";
+        var box=$("#summaryText");box.replaceChildren();
+        var parts=currentText.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[currentText];
+        parts.slice(0,8).forEach(function(sentence){var p=document.createElement("p");p.textContent=sentence.trim();box.appendChild(p);});
+        $("#sourceLink").href=page.fullurl||"https://en.wikipedia.org/wiki/Special:Search?search="+encodeURIComponent(topic);
+        $("#keyFacts").textContent="Topic: "+(page.title||topic)+" · Source: Wikipedia";
+      }).catch(function(){ $("#statusText").textContent="Could not load the overview"; $("#summaryText").textContent="The search ran, but Wikipedia did not return an overview. Please check the connection and try again."; });
     }
-
-    function paragraphs(container, text, limit) {
-      container.replaceChildren();
-      const sentences = (text || "").match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
-      sentences.slice(0, limit).forEach((sentence) => {
-        const p = document.createElement("p");
-        p.textContent = sentence.trim();
-        if (p.textContent) container.appendChild(p);
-      });
-    }
-
-    async function fetchTopic(query) {
-      const url = new URL("https://en.wikipedia.org/w/api.php");
-      url.search = new URLSearchParams({
-        action: "query", generator: "search", gsrsearch: query, gsrlimit: "1",
-        prop: "extracts|info", exintro: "1", explaintext: "1", inprop: "url",
-        format: "json", origin: "*"
-      }).toString();
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Could not reach the topic source");
-      const data = await response.json();
-      const pages = data.query && data.query.pages;
-      if (!pages) throw new Error("No matching article found");
-      return Object.values(pages)[0];
-    }
-
-    async function fetchImages(query) {
-      const url = new URL("https://commons.wikimedia.org/w/api.php");
-      url.search = new URLSearchParams({
-        action: "query", generator: "search", gsrsearch: query, gsrnamespace: "6",
-        gsrlimit: "12", prop: "imageinfo", iiprop: "url", iiurlwidth: "900",
-        format: "json", origin: "*"
-      }).toString();
-      try {
-        const response = await fetch(url);
-        if (!response.ok) return [];
-        const data = await response.json();
-        return Object.values((data.query && data.query.pages) || []).map((page) => ({
-          title: (page.title || query).replace(/^File:/, ""),
-          url: page.imageinfo && (page.imageinfo[0].thumburl || page.imageinfo[0].url),
-          fullUrl: page.imageinfo && page.imageinfo[0].url
-        })).filter((image) => image.url);
-      } catch (_) { return []; }
-    }
-
-    function showImages(images) {
-      const featured = $("#featuredImage");
-      featured.replaceChildren();
-      if (images.length) {
-        const a = document.createElement("a");
-        a.href = images[0].fullUrl || images[0].url; a.target = "_blank"; a.rel = "noopener noreferrer";
-        const img = document.createElement("img"); img.src = images[0].url; img.alt = images[0].title; a.appendChild(img); featured.appendChild(a);
-      } else {
-        const placeholder = document.createElement("div"); placeholder.className = "image-placeholder"; placeholder.textContent = "No matching images found"; featured.appendChild(placeholder);
-      }
-      const grid = $("#galleryGrid"); grid.replaceChildren();
-      $("#imageCount").textContent = String(images.length);
-      images.forEach((item) => {
-        const figure = document.createElement("figure"); figure.className = "gallery-card";
-        const img = document.createElement("img"); img.src = item.url; img.alt = item.title; img.loading = "lazy";
-        const link = document.createElement("a"); link.href = item.fullUrl || item.url; link.target = "_blank"; link.rel = "noopener noreferrer"; link.setAttribute("aria-label", "Open image: " + item.title);
-        figure.append(img, link); grid.appendChild(figure);
-      });
-      if (!images.length) grid.textContent = "No matching images were returned.";
-    }
-
-    function showSources(page, query) {
-      const list = $("#sourcesList"); list.replaceChildren();
-      const entries = [[(page.title || query) + " — Wikipedia", "Article and references", page.fullurl], ["Wikimedia Commons", "Matching images", "https://commons.wikimedia.org/wiki/Special:MediaSearch?search=" + encodeURIComponent(query)]];
-      entries.forEach(([title, detail, href]) => {
-        if (!href) return;
-        const a = document.createElement("a"); a.className = "source-card"; a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer";
-        const wrapper = document.createElement("div"); const strong = document.createElement("strong"); strong.textContent = title;
-        const span = document.createElement("span"); span.textContent = detail; wrapper.append(strong, span); a.appendChild(wrapper); list.appendChild(a);
-      });
-    }
-
-    function addChat(question) {
-      const messages = $("#messages");
-      const row = document.createElement("div"); row.className = "message user";
-      const bubble = document.createElement("div"); bubble.className = "message-bubble"; bubble.textContent = question; row.appendChild(bubble); messages.appendChild(row);
-      const answerRow = document.createElement("div"); answerRow.className = "message";
-      const answer = document.createElement("div"); answer.className = "message-bubble";
-      const text = state.page && state.page.extract || "";
-      answer.textContent = text ? text.slice(0, 900) : "Try another question about " + state.topic + ".";
-      answerRow.appendChild(answer); messages.appendChild(answerRow); messages.scrollTop = messages.scrollHeight;
-    }
-
-    async function search(rawQuery) {
-      const query = String(rawQuery || "").trim();
-      if (!query) { $("#searchInput").focus(); return; }
-      state.topic = query;
-      welcome.hidden = true;
-      study.hidden = false;
-      $("#topicTitle").textContent = query;
-      $("#statusText").textContent = "Searching for your topic…";
-      $("#summaryText").textContent = "Loading a sourced overview on this page…";
-      $("#messages").replaceChildren();
-      history.replaceState(null, "", "?topic=" + encodeURIComponent(query));
-      try {
-        const [page, images] = await Promise.all([fetchTopic(query), fetchImages(query)]);
-        state.page = page; state.images = images;
-        $("#topicTitle").textContent = page.title || query;
-        paragraphs($("#summaryText"), page.extract || "No overview text was returned. See the source links below.", 7);
-        $("#deepDiveTitle").textContent = "Explore " + (page.title || query);
-        paragraphs($("#deepDiveText"), page.extract || "Ask a follow-up question below to explore this topic.", 24);
-        $("#statusText").textContent = "Sourced overview ready";
-        const facts = $("#keyFacts"); facts.replaceChildren();
-        [["Topic", page.title || query], ["Text reference", "Wikipedia"], ["Images", "Wikimedia Commons"]].forEach(([label, value]) => {
-          const card = document.createElement("div"); card.className = "fact";
-          const strong = document.createElement("strong"); strong.textContent = label;
-          const span = document.createElement("span"); span.textContent = value; card.append(strong, span); facts.appendChild(card);
-        });
-        showImages(images); showSources(page, query); setTab(state.mode === "images" ? "gallery" : "overview");
-      } catch (_) {
-        state.page = null;
-        $("#statusText").textContent = "Could not load topic information";
-        $("#summaryText").textContent = "The search stayed on this page, but the topic source could not be reached. The school network may block the source. Try a shorter topic or a different network.";
-      }
-    }
-
-    $("#searchForm").addEventListener("submit", (event) => { event.preventDefault(); search($("#searchInput").value); });
-    $("#searchInput").addEventListener("keydown", (event) => { if (event.key === "Enter") { event.preventDefault(); search(event.currentTarget.value); } });
-    document.querySelectorAll("[data-topic]").forEach((link) => link.addEventListener("click", (event) => { event.preventDefault(); search(link.dataset.topic); }));
-    document.querySelectorAll(".mode-button").forEach((button) => button.addEventListener("click", () => {
-      document.querySelectorAll(".mode-button").forEach((item) => item.classList.toggle("active", item === button));
-      state.mode = button.dataset.mode;
-      if (study.hidden) $("#searchInput").placeholder = state.mode === "images" ? "Search images for a topic…" : "Ask about any topic…";
-      else setTab(state.mode === "images" ? "gallery" : "overview");
-    }));
-    document.querySelectorAll(".tab").forEach((tab) => tab.addEventListener("click", () => setTab(tab.dataset.tab)));
-    $("#chatForm").addEventListener("submit", (event) => { event.preventDefault(); const input = $("#chatInput"); const value = input.value.trim(); if (value) { addChat(value); input.value = ""; } });
-    document.querySelectorAll(".question-button").forEach((button) => button.addEventListener("click", () => addChat(button.textContent)));
-    $("#newChat").addEventListener("click", () => { history.replaceState(null, "", location.pathname); study.hidden = true; welcome.hidden = false; $("#searchInput").value = ""; $("#searchInput").focus(); });
-    $("#shareButton").addEventListener("click", async () => { try { await navigator.clipboard.writeText(location.href); $("#toast").classList.add("show"); setTimeout(() => $("#toast").classList.remove("show"), 1800); } catch (_) { window.prompt("Copy this page link:", location.href); } });
-    const initial = new URLSearchParams(location.search).get("topic");
-    if (initial) search(initial);
+    $("#searchForm").addEventListener("submit",function(e){e.preventDefault();search($("#searchInput").value);});
+    document.querySelectorAll("[data-topic]").forEach(function(button){button.addEventListener("click",function(){search(button.getAttribute("data-topic"));});});
+    $("#newTopic").addEventListener("click",function(){history.replaceState(null,"",location.pathname);study.hidden=true;welcome.hidden=false;$("#searchInput").value="";$("#searchInput").focus();});
+    $("#chatForm").addEventListener("submit",function(e){e.preventDefault();var input=$("#chatInput"),q=input.value.trim();if(!q)return;var row=document.createElement("div");row.className="message";var bubble=document.createElement("div");bubble.className="message-bubble";bubble.textContent=currentText?currentText.slice(0,800):"Search for a topic first to load its overview.";row.textContent="You asked: "+q+" ";row.appendChild(bubble);$("#messages").appendChild(row);input.value="";});
+    var initial=new URLSearchParams(location.search).get("topic");if(initial)search(initial);
   })();
   </script>
 </body>
