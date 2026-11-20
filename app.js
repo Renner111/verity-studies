@@ -154,7 +154,7 @@ function renderQuestions(topic) {
 }
 
 async function performSearch(query) {
-  const cleanQuery = query.trim();
+  const cleanQuery = String(query || "").trim();
   if (!cleanQuery) {
     $("#searchInput").focus();
     return;
@@ -217,9 +217,24 @@ function askFollowUp(question) {
   messages.scrollTop = messages.scrollHeight;
 }
 
-$("#searchForm").addEventListener("submit", (event) => {
+const searchForm = $("#searchForm");
+const searchInput = $("#searchInput");
+
+searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  performSearch($("#searchInput").value);
+  performSearch(searchInput.value);
+});
+
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.keyCode === 13) {
+    event.preventDefault();
+    performSearch(searchInput.value);
+  }
+});
+
+$("#searchForm button[type=submit]").addEventListener("click", (event) => {
+  event.preventDefault();
+  performSearch(searchInput.value);
 });
 
 document.querySelectorAll("[data-query]").forEach((button) => {
@@ -231,7 +246,7 @@ document.querySelectorAll(".mode-button").forEach((button) => {
     document.querySelectorAll(".mode-button").forEach((item) => item.classList.toggle("active", item === button));
     state.mode = button.dataset.mode;
     if (study.hidden) {
-      $("#searchInput").placeholder = state.mode === "images" ? "Search for images of any topic…" : "Ask about any topic…";
+      searchInput.placeholder = state.mode === "images" ? "Search for images of any topic…" : "Ask about any topic…";
     } else {
       showTab(state.mode === "images" ? "gallery" : "overview");
     }
@@ -252,8 +267,8 @@ $("#chatForm").addEventListener("submit", (event) => {
 $("#newChat").addEventListener("click", () => {
   welcome.hidden = false;
   study.hidden = true;
-  $("#searchInput").value = "";
-  $("#searchInput").focus();
+  searchInput.value = "";
+  searchInput.focus();
 });
 
 $("#shareButton").addEventListener("click", async () => {
