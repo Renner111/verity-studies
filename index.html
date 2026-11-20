@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
   <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -21,40 +21,226 @@
       </nav>
       <button class="icon-button" id="newChat" type="button" aria-label="Start new topic">＋</button>
     </header>
+
     <section class="welcome" id="welcome">
       <p class="eyebrow">EXPLORE WITH CLARITY</p>
       <h1>What do you want to<br />understand?</h1>
-      <form class="search-box" id="searchForm">
-        <input id="searchInput" autocomplete="off" placeholder="Ask about any topic..." aria-label="Topic to learn about" />
+      <form class="search-box" id="searchForm" action="." method="get">
+        <input id="searchInput" name="topic" autocomplete="off" placeholder="Ask about any topic..." aria-label="Topic to learn about" />
         <button type="submit" aria-label="Search">→</button>
       </form>
       <div class="suggestions">
-        <a role="button" data-query="How black holes work" href="?topic=How%20black%20holes%20work" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">Black holes</a>
-        <a role="button" data-query="The history of ancient Rome" href="?topic=The%20history%20of%20ancient%20Rome" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">Ancient Rome</a>
-        <a role="button" data-query="How photosynthesis works" href="?topic=How%20photosynthesis%20works" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">Photosynthesis</a>
-        <a role="button" data-query="The Renaissance" href="?topic=The%20Renaissance" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">The Renaissance</a>
+        <a role="button" data-query="Black holes" href="?topic=Black%20holes">Black holes</a>
+        <a role="button" data-query="Ancient Rome" href="?topic=Ancient%20Rome">Ancient Rome</a>
+        <a role="button" data-query="Photosynthesis" href="?topic=Photosynthesis">Photosynthesis</a>
+        <a role="button" data-query="The Renaissance" href="?topic=The%20Renaissance">The Renaissance</a>
       </div>
+      <p class="small-note">Searches stay right here on Verity Studies.</p>
     </section>
+
     <section class="study" id="study" hidden>
-      <div class="study-header"><div><p class="topic-kicker">CURRENT TOPIC</p><h2 id="topicTitle">Topic</h2></div><button class="share-button" id="shareButton" type="button">Share</button></div>
+      <div class="study-header">
+        <div><p class="topic-kicker">YOUR STUDY TOPIC</p><h2 id="topicTitle">Topic</h2></div>
+        <button class="share-button" id="shareButton" type="button">Share</button>
+      </div>
       <nav class="tabs" aria-label="Topic sections">
         <button class="tab active" data-tab="overview" type="button">Overview</button>
         <button class="tab" data-tab="details" type="button">Deep dive</button>
-        <button class="tab" data-tab="gallery" type="button">Gallery <span id="imageCount">0</span></button>
+        <button class="tab" data-tab="gallery" type="button">Images <span id="imageCount">0</span></button>
         <button class="tab" data-tab="sources" type="button">Sources</button>
       </nav>
       <div class="tab-panels">
         <article class="panel active" id="overviewPanel">
-          <div class="summary-grid"><div class="main-summary"><p class="status-line"><span class="status-dot"></span><span id="statusText">Searching sources</span></p><div id="summaryText" class="summary-text"></div><div class="key-facts" id="keyFacts"></div></div><div class="featured-image" id="featuredImage"><div class="image-placeholder">Matching image</div></div></div>
+          <div class="summary-grid">
+            <div class="main-summary">
+              <p class="status-line"><span class="status-dot"></span><span id="statusText">Looking up sources…</span></p>
+              <div id="summaryText" class="summary-text">Putting together your overview…</div>
+              <div class="key-facts" id="keyFacts"></div>
+            </div>
+            <div class="featured-image" id="featuredImage"><div class="image-placeholder">Finding a matching image…</div></div>
+          </div>
         </article>
-        <article class="panel" id="detailsPanel"><div class="details-layout"><div><p class="section-label">EXPLORE FURTHER</p><h3 id="deepDiveTitle">About this topic</h3><div id="deepDiveText" class="article-copy"></div></div><aside class="questions" id="quickQuestions"><p class="section-label">FOLLOW-UPS</p></aside></div></article>
+        <article class="panel" id="detailsPanel">
+          <div class="details-layout">
+            <div><p class="section-label">EXPLORE FURTHER</p><h3 id="deepDiveTitle">About this topic</h3><div id="deepDiveText" class="article-copy"></div></div>
+            <aside class="questions" id="quickQuestions"><p class="section-label">QUESTIONS TO EXPLORE</p></aside>
+          </div>
+        </article>
         <article class="panel" id="galleryPanel"><div class="gallery-grid" id="galleryGrid"></div></article>
         <article class="panel" id="sourcesPanel"><div class="sources-list" id="sourcesList"></div></article>
       </div>
-      <section class="chat" aria-label="Conversation"><div class="messages" id="messages"></div><form class="chat-input" id="chatForm"><input id="chatInput" autocomplete="off" placeholder="Ask a follow-up question..." aria-label="Follow-up question" /><button type="submit" aria-label="Send follow-up">→</button></form></section>
+      <section class="chat" aria-label="Conversation">
+        <div class="messages" id="messages"></div>
+        <form class="chat-input" id="chatForm">
+          <input id="chatInput" autocomplete="off" placeholder="Ask a follow-up to explore deeper…" aria-label="Follow-up question" />
+          <button type="submit" aria-label="Send follow-up">→</button>
+        </form>
+      </section>
     </section>
   </main>
   <div class="toast" id="toast" role="status">Link copied</div>
-  <script src="app.js?v=3"></script>
+
+  <script>
+  (() => {
+    const $ = (selector) => document.querySelector(selector);
+    const state = { topic: "", mode: "text", page: null, images: [] };
+    const welcome = $("#welcome");
+    const study = $("#study");
+    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+
+    async function getJson(url) {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Source request failed");
+      const data = await response.json();
+      if (data.error) throw new Error(data.error.info || "Source request failed");
+      return data;
+    }
+
+    async function searchArticle(query) {
+      const url = new URL("https://en.wikipedia.org/w/api.php");
+      url.search = new URLSearchParams({ action: "query", generator: "search", gsrsearch: query, gsrlimit: "1", prop: "extracts|info", exintro: "1", explaintext: "1", inprop: "url", format: "json", origin: "*" }).toString();
+      const data = await getJson(url);
+      const pages = data.query && data.query.pages;
+      if (!pages) throw new Error("No matching article found");
+      return Object.values(pages)[0];
+    }
+
+    async function searchImages(query) {
+      const url = new URL("https://commons.wikimedia.org/w/api.php");
+      url.search = new URLSearchParams({ action: "query", generator: "search", gsrsearch: query, gsrnamespace: "6", gsrlimit: "12", prop: "imageinfo", iiprop: "url", iiurlwidth: "900", format: "json", origin: "*" }).toString();
+      try {
+        const data = await getJson(url);
+        return Object.values((data.query && data.query.pages) || {}).map((page) => ({ title: (page.title || query).replace(/^File:/, ""), url: page.imageinfo && (page.imageinfo[0].thumburl || page.imageinfo[0].url), fullUrl: page.imageinfo && page.imageinfo[0].url })).filter((image) => image.url);
+      } catch (_) { return []; }
+    }
+
+    function setParagraphs(container, text, limit) {
+      container.replaceChildren();
+      const parts = (text || "").match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
+      parts.slice(0, limit).forEach((part) => {
+        const paragraph = document.createElement("p");
+        paragraph.textContent = part.trim();
+        if (paragraph.textContent) container.appendChild(paragraph);
+      });
+    }
+
+    function showTab(name) {
+      document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === name));
+      document.querySelectorAll(".panel").forEach((panel) => panel.classList.toggle("active", panel.id === `${name}Panel`));
+    }
+
+    function drawResults(page, images, query) {
+      state.page = page;
+      state.images = images;
+      const title = page.title || query;
+      $("#topicTitle").textContent = title;
+      $("#statusText").textContent = "Overview based on the linked reference";
+      setParagraphs($("#summaryText"), page.extract || `Explore ${title} with the source links below.`, 6);
+      $("#deepDiveTitle").textContent = `Explore ${title}`;
+      setParagraphs($("#deepDiveText"), page.extract || `Open a follow-up question below to explore ${title}.`, 24);
+      const facts = $("#keyFacts");
+      facts.replaceChildren();
+      [["Topic", title], ["Text reference", "Wikipedia"], ["Image collection", "Wikimedia Commons"]].forEach(([label, value]) => {
+        const card = document.createElement("div"); card.className = "fact";
+        const heading = document.createElement("strong"); heading.textContent = label;
+        const detail = document.createElement("span"); detail.textContent = value;
+        card.append(heading, detail); facts.appendChild(card);
+      });
+      const featured = $("#featuredImage"); featured.replaceChildren();
+      if (images.length) {
+        const imageLink = document.createElement("a"); imageLink.href = images[0].fullUrl || images[0].url; imageLink.target = "_blank"; imageLink.rel = "noopener noreferrer";
+        const image = document.createElement("img"); image.src = images[0].url; image.alt = images[0].title; imageLink.appendChild(image); featured.appendChild(imageLink);
+      } else {
+        const empty = document.createElement("div"); empty.className = "image-placeholder"; empty.textContent = "No matching images found"; featured.appendChild(empty);
+      }
+      const gallery = $("#galleryGrid"); gallery.replaceChildren(); $("#imageCount").textContent = String(images.length);
+      images.forEach((item) => {
+        const figure = document.createElement("figure"); figure.className = "gallery-card";
+        const image = document.createElement("img"); image.src = item.url; image.alt = item.title; image.loading = "lazy";
+        const link = document.createElement("a"); link.href = item.fullUrl || item.url; link.target = "_blank"; link.rel = "noopener noreferrer"; link.setAttribute("aria-label", `Open image: ${item.title}`);
+        figure.append(image, link); gallery.appendChild(figure);
+      });
+      if (!images.length) gallery.textContent = "No images were returned. You can still explore the text overview.";
+      const sources = $("#sourcesList"); sources.replaceChildren();
+      [[`${title} — Wikipedia`, "Article and references", page.fullurl], ["Wikimedia Commons", "Matching images", `https://commons.wikimedia.org/wiki/Special:MediaSearch?search=${encodeURIComponent(query)}`]].forEach(([name, description, href]) => {
+        if (!href) return;
+        const link = document.createElement("a"); link.className = "source-card"; link.href = href; link.target = "_blank"; link.rel = "noopener noreferrer";
+        const wrapper = document.createElement("div"); const heading = document.createElement("strong"); heading.textContent = name;
+        const detail = document.createElement("span"); detail.textContent = description; wrapper.append(heading, detail); link.appendChild(wrapper); sources.appendChild(link);
+      });
+      const questions = $("#quickQuestions");
+      questions.querySelectorAll("button").forEach((button) => button.remove());
+      [`How did ${title} begin?`, `Why is ${title} important?`, `What are some key facts about ${title}?`].forEach((question) => {
+        const button = document.createElement("button"); button.type = "button"; button.className = "question-button"; button.textContent = question;
+        button.addEventListener("click", () => addChat(question)); questions.appendChild(button);
+      });
+      showTab(state.mode === "images" ? "gallery" : "overview");
+    }
+
+    async function performSearch(rawQuery) {
+      const query = String(rawQuery || "").trim();
+      if (!query) { $("#searchInput").focus(); return; }
+      state.topic = query;
+      welcome.hidden = true;
+      study.hidden = false;
+      $("#topicTitle").textContent = query;
+      $("#statusText").textContent = "Searching for your topic…";
+      $("#summaryText").textContent = "Loading a sourced overview here on this page…";
+      $("#messages").replaceChildren();
+      history.replaceState(null, "", `?topic=${encodeURIComponent(query)}`);
+      try {
+        const [page, images] = await Promise.all([searchArticle(query), searchImages(query)]);
+        drawResults(page, images, query);
+      } catch (error) {
+        $("#statusText").textContent = "Search could not reach its source";
+        $("#summaryText").textContent = "The page stayed here, but the topic source could not be reached. This can happen if the school network blocks Wikipedia. Try again on another network or a shorter topic.";
+      }
+    }
+
+    document.querySelectorAll("[data-query]").forEach((link) => link.addEventListener("click", (event) => {
+      event.preventDefault();
+      performSearch(link.dataset.query);
+    }));
+    $("#searchForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      performSearch($("#searchInput").value);
+    });
+    $("#searchInput").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") { event.preventDefault(); performSearch(event.currentTarget.value); }
+    });
+    document.querySelectorAll(".mode-button").forEach((button) => button.addEventListener("click", () => {
+      document.querySelectorAll(".mode-button").forEach((item) => item.classList.toggle("active", item === button));
+      state.mode = button.dataset.mode;
+      if (study.hidden) $("#searchInput").placeholder = state.mode === "images" ? "Search images for a topic…" : "Ask about any topic…";
+      else showTab(state.mode === "images" ? "gallery" : "overview");
+    }));
+    document.querySelectorAll(".tab").forEach((tab) => tab.addEventListener("click", () => showTab(tab.dataset.tab)));
+
+    function addChat(question) {
+      const messages = $("#messages");
+      const user = document.createElement("div"); user.className = "message user";
+      const userBubble = document.createElement("div"); userBubble.className = "message-bubble"; userBubble.textContent = question; user.appendChild(userBubble); messages.appendChild(user);
+      const answer = document.createElement("div"); answer.className = "message";
+      const answerBubble = document.createElement("div"); answerBubble.className = "message-bubble";
+      const sourceText = state.page && state.page.extract || "";
+      answerBubble.textContent = sourceText ? sourceText.slice(0, 850) : `Search for ${state.topic} to load its sourced overview first.`;
+      answer.appendChild(answerBubble); messages.appendChild(answer); messages.scrollTop = messages.scrollHeight;
+    }
+    $("#chatForm").addEventListener("submit", (event) => {
+      event.preventDefault(); const input = $("#chatInput"); const question = input.value.trim();
+      if (question) { addChat(question); input.value = ""; }
+    });
+    $("#newChat").addEventListener("click", () => {
+      history.replaceState(null, "", location.pathname);
+      welcome.hidden = false; study.hidden = true; $("#searchInput").value = ""; $("#searchInput").focus();
+    });
+    $("#shareButton").addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(location.href); $("#toast").classList.add("show"); setTimeout(() => $("#toast").classList.remove("show"), 1800); }
+      catch (_) { window.prompt("Copy this page link:", location.href); }
+    });
+    const initialTopic = new URLSearchParams(location.search).get("topic");
+    if (initialTopic) performSearch(initialTopic);
+  })();
+  </script>
 </body>
 </html>
