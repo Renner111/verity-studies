@@ -14,7 +14,7 @@
   <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
   <main class="app-shell">
     <header class="topbar">
-      <a class="brand" href="#" aria-label="Verity Studies home"><span class="brand-mark">✓</span><span>Verity Studies</span></a>
+      <a class="brand" href="./" aria-label="Verity Studies home"><span class="brand-mark">✓</span><span>Verity Studies</span></a>
       <nav class="mode-switch" aria-label="Search mode">
         <button class="mode-button active" data-mode="text" type="button">Learn</button>
         <button class="mode-button" data-mode="images" type="button">Images</button>
@@ -29,10 +29,10 @@
         <button type="submit" aria-label="Search">→</button>
       </form>
       <div class="suggestions">
-        <a role="button" target="_blank" rel="noopener" data-query="How black holes work" href="https://en.wikipedia.org/w/index.php?search=How+black+holes+work" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">Black holes</a>
-        <a role="button" target="_blank" rel="noopener" data-query="The history of ancient Rome" href="https://en.wikipedia.org/w/index.php?search=The+history+of+ancient+Rome" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">Ancient Rome</a>
-        <a role="button" target="_blank" rel="noopener" data-query="How photosynthesis works" href="https://en.wikipedia.org/w/index.php?search=How+photosynthesis+works" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">Photosynthesis</a>
-        <a role="button" target="_blank" rel="noopener" data-query="The Renaissance" href="https://en.wikipedia.org/w/index.php?search=The+Renaissance" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">The Renaissance</a>
+        <a role="button" data-query="How black holes work" href="?topic=How%20black%20holes%20work" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">Black holes</a>
+        <a role="button" data-query="The history of ancient Rome" href="?topic=The%20history%20of%20ancient%20Rome" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">Ancient Rome</a>
+        <a role="button" data-query="How photosynthesis works" href="?topic=How%20photosynthesis%20works" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">Photosynthesis</a>
+        <a role="button" data-query="The Renaissance" href="?topic=The%20Renaissance" style="display:inline-block;padding:9px 13px;border:1px solid rgba(72,75,127,.09);border-radius:999px;color:#707289;background:rgba(255,255,255,.48);font-size:13px;text-decoration:none">The Renaissance</a>
       </div>
     </section>
     <section class="study" id="study" hidden>
@@ -45,7 +45,7 @@
       </nav>
       <div class="tab-panels">
         <article class="panel active" id="overviewPanel">
-          <div class="summary-grid"><div class="main-summary"><p class="status-line"><span class="status-dot"></span><span id="statusText">Searching trusted sources</span></p><div id="summaryText" class="summary-text"></div><div class="key-facts" id="keyFacts"></div></div><div class="featured-image" id="featuredImage"><div class="image-placeholder">Loading image...</div></div></div>
+          <div class="summary-grid"><div class="main-summary"><p class="status-line"><span class="status-dot"></span><span id="statusText">Searching sources</span></p><div id="summaryText" class="summary-text"></div><div class="key-facts" id="keyFacts"></div></div><div class="featured-image" id="featuredImage"><div class="image-placeholder">Matching image</div></div></div>
         </article>
         <article class="panel" id="detailsPanel"><div class="details-layout"><div><p class="section-label">EXPLORE FURTHER</p><h3 id="deepDiveTitle">About this topic</h3><div id="deepDiveText" class="article-copy"></div></div><aside class="questions" id="quickQuestions"><p class="section-label">FOLLOW-UPS</p></aside></div></article>
         <article class="panel" id="galleryPanel"><div class="gallery-grid" id="galleryGrid"></div></article>
@@ -55,6 +55,6 @@
     </section>
   </main>
   <div class="toast" id="toast" role="status">Link copied</div>
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>
